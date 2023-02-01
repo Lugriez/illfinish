@@ -1,0 +1,353 @@
+[gd_scene load_steps=23 format=2]
+
+[ext_resource path="res://Aseprite/weapon_sprites/Vjuh-sheet.png" type="Texture" id=1]
+[ext_resource path="res://Enemies/FlyingPidor/fly_anim_f3.png" type="Texture" id=2]
+[ext_resource path="res://Enemies/FlyingPidor/fly_anim_f2.png" type="Texture" id=3]
+[ext_resource path="res://Enemies/FlyingPidor/fly_anim_f1.png" type="Texture" id=4]
+[ext_resource path="res://Enemies/FlyingPidor/fly_anim_f0.png" type="Texture" id=5]
+[ext_resource path="res://Aseprite/weapon_sprites/Stick.png" type="Texture" id=6]
+[ext_resource path="res://FlyingEnemy.gd" type="Script" id=7]
+[ext_resource path="res://HitBox.gd" type="Script" id=8]
+
+[sub_resource type="CapsuleShape2D" id=14]
+radius = 1.0
+height = 6.0
+
+[sub_resource type="Animation" id=12]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Node2D:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Node2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 5, 2 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SplashSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("SplashSprite:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Node2D/Sprite/Hitbox/CollisionShape2D:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=13]
+resource_name = "attack"
+length = 1.25
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Node2D:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.25, 0.45, 1.25 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ 0.0, -56.0, 87.4, 0.0 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Node2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.25, 0.45, 1.25 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 5, 2 ), Vector2( 0, 7 ), Vector2( 5, 2 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("SplashSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 0.25, 0.7 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ false, true, false ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("SplashSprite:frame")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0.35, 0.45, 0.55 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2 ]
+}
+tracks/4/type = "value"
+tracks/4/path = NodePath("Node2D/Sprite/Hitbox/CollisionShape2D:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 0, 0.25, 0.45 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 1,
+"values": [ true, false, true ]
+}
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 5 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "idle",
+"speed": 3.0
+}, {
+"frames": [ ExtResource( 5 ), ExtResource( 4 ), ExtResource( 3 ), ExtResource( 2 ) ],
+"loop": true,
+"name": "move",
+"speed": 4.0
+} ]
+
+[sub_resource type="CapsuleShape2D" id=2]
+radius = 4.0
+height = 0.0
+
+[sub_resource type="Animation" id=5]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ "idle" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0 ]
+}
+
+[sub_resource type="Animation" id=3]
+resource_name = "idle"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "idle" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.1, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 1, 0 ]
+}
+
+[sub_resource type="Animation" id=4]
+resource_name = "move"
+length = 0.4
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:animation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ "move" ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("AnimatedSprite:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.1, 0.2, 0.3, 0.4 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 3 ]
+}
+
+[sub_resource type="AnimationNodeAnimation" id=8]
+animation = "idle"
+
+[sub_resource type="AnimationNodeAnimation" id=9]
+animation = "move"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=10]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=11]
+
+[sub_resource type="AnimationNodeStateMachine" id=6]
+states/idle/node = SubResource( 8 )
+states/idle/position = Vector2( 215, 90 )
+states/move/node = SubResource( 9 )
+states/move/position = Vector2( 443, 90 )
+transitions = [ "idle", "move", SubResource( 10 ), "move", "idle", SubResource( 11 ) ]
+start_node = "idle"
+graph_offset = Vector2( -1272, 0 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=7]
+
+[node name="FlyingPidor" type="KinematicBody2D"]
+position = Vector2( 16, 16 )
+collision_layer = 4
+collision_mask = 2
+script = ExtResource( 7 )
+hp = 5.0
+moveSpeed = 50
+acceleration = 25
+
+[node name="WeaponMelee" type="Node2D" parent="."]
+visible = false
+
+[node name="SplashSprite" type="Sprite" parent="WeaponMelee"]
+visible = false
+position = Vector2( -2, 11 )
+texture = ExtResource( 1 )
+flip_v = true
+hframes = 3
+
+[node name="Node2D" type="Node2D" parent="WeaponMelee"]
+position = Vector2( 5, 2 )
+
+[node name="Sprite" type="Sprite" parent="WeaponMelee/Node2D"]
+position = Vector2( -7, 5 )
+texture = ExtResource( 6 )
+
+[node name="Hitbox" type="Area2D" parent="WeaponMelee/Node2D/Sprite"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource( 8 )
+damage = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WeaponMelee/Node2D/Sprite/Hitbox"]
+shape = SubResource( 14 )
+
+[node name="WeaponAnimPlayer" type="AnimationPlayer" parent="WeaponMelee"]
+anims/RESET = SubResource( 12 )
+anims/attack = SubResource( 13 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+animation = "idle"
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 2 )
+
+[node name="RayCast2D" type="RayCast2D" parent="CollisionShape2D"]
+scale = Vector2( 0.993082, 0.973758 )
+enabled = true
+exclude_parent = false
+cast_to = Vector2( -15.1045, 0 )
+collide_with_areas = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+reset_on_save = false
+anims/RESET = SubResource( 5 )
+anims/idle = SubResource( 3 )
+anims/move = SubResource( 4 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 6 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource( 7 )
+
+[node name="HP bar" type="Node2D" parent="."]
+
+[node name="Background" type="ColorRect" parent="HP bar"]
+margin_left = -13.0
+margin_top = -11.0
+margin_right = 13.0
+margin_bottom = -6.0
+color = Color( 0.321569, 0.321569, 0.321569, 1 )
+
+[node name="HealthBar" type="ColorRect" parent="HP bar"]
+margin_left = -13.0
+margin_top = -11.0
+margin_right = 13.0
+margin_bottom = -6.0
+color = Color( 0.521569, 0.0431373, 0.0431373, 1 )
+
+[node name="PathTimer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+
+[connection signal="timeout" from="PathTimer" to="." method="_on_PathTimer_timeout"]

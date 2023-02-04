@@ -8,7 +8,7 @@ export var knockback_force:int = 300
 onready var collision_shape: CollisionShape2D = get_child(0)
 
 func _init():
-	connect("body_entered", self, "_on_body_entered")
+	var __ = connect("body_entered", self, "_on_body_entered")
 
 func _ready():
 	assert(collision_shape != null)

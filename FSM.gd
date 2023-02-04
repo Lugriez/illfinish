@@ -6,7 +6,9 @@ var previous_state: int = -1
 var state = -1 setget set_state
 
 onready var parent:Character = get_parent()
-onready var animation_player = parent.get_node("AnimationPlayer")
+onready var animation_player:AnimationPlayer = parent.get_node("AnimationPlayer")
+
+
 func _physics_process(delta):
 	if state != -1:
 		_state_logic(delta)

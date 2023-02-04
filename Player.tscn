@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Aseprite/MainHero_idle1-2.png" type="Texture" id=1]
 [ext_resource path="res://Aseprite/MainHero_idle1-1.png" type="Texture" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://Aseprite/weapon_sprites/Stick.png" type="Texture" id=8]
 [ext_resource path="res://Aseprite/weapon_sprites/Vjuh-sheet.png" type="Texture" id=9]
 [ext_resource path="res://HitBox.gd" type="Script" id=10]
+[ext_resource path="res://FiniteStateMachine.gd" type="Script" id=11]
 
 [sub_resource type="SpriteFrames" id=1]
 animations = [ {
@@ -53,6 +54,34 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ 0 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("AnimatedSprite:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=16]
+resource_name = "hurt"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/path = NodePath("AnimatedSprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 0.2, 0.3 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ false, true, false, true ]
 }
 
 [sub_resource type="Animation" id=3]
@@ -112,27 +141,6 @@ tracks/1/keys = {
 "update": 1,
 "values": [ 0, 1, 2, 3 ]
 }
-
-[sub_resource type="AnimationNodeAnimation" id=8]
-animation = "idle"
-
-[sub_resource type="AnimationNodeAnimation" id=9]
-animation = "move"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=10]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=11]
-
-[sub_resource type="AnimationNodeStateMachine" id=6]
-states/idle/node = SubResource( 8 )
-states/idle/position = Vector2( 215, 90 )
-states/move/node = SubResource( 9 )
-states/move/position = Vector2( 443, 90 )
-transitions = [ "idle", "move", SubResource( 10 ), "move", "idle", SubResource( 11 ) ]
-start_node = "idle"
-graph_offset = Vector2( -1272, 0 )
-
-[sub_resource type="AnimationNodeStateMachinePlayback" id=7]
 
 [sub_resource type="RectangleShape2D" id=15]
 extents = Vector2( 0.946196, 24.475 )
@@ -199,6 +207,18 @@ tracks/4/keys = {
 "update": 1,
 "values": [ true ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("SplashSprite:offset")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ) ]
+}
 
 [sub_resource type="Animation" id=13]
 resource_name = "attack"
@@ -264,19 +284,33 @@ tracks/4/keys = {
 "update": 1,
 "values": [ true, false, true ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("SplashSprite:offset")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0.25, 0.45 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, 0 ), Vector2( 0, 15 ) ]
+}
 
-[node name="KinematicBody2D" type="KinematicBody2D"]
+[node name="Player" type="KinematicBody2D"]
 position = Vector2( 16, 16 )
 collision_layer = 2
 collision_mask = 5
 script = ExtResource( 3 )
-hp = 100.0
+hp = 35.0
+
+[node name="FiniteStateMachine" type="Node" parent="."]
+script = ExtResource( 11 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
 animation = "idle"
 frame = 1
-playing = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )
@@ -291,14 +325,9 @@ collide_with_areas = true
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 reset_on_save = false
 anims/RESET = SubResource( 5 )
+anims/hurt = SubResource( 16 )
 anims/idle = SubResource( 3 )
 anims/move = SubResource( 4 )
-
-[node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource( 6 )
-anim_player = NodePath("../AnimationPlayer")
-active = true
-parameters/playback = SubResource( 7 )
 
 [node name="WeaponMelee" type="Node2D" parent="."]
 

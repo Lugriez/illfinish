@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/dungeon_tiles.png-18373180eebc772ef5c730010e01b024.stex"
+path="res://.import/HP bar text.png-f041d50ac7059b69cfc59e9c78134e31.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tilemaps/dungeon_tiles.png"
-dest_files=[ "res://.import/dungeon_tiles.png-18373180eebc772ef5c730010e01b024.stex" ]
+source_file="res://Aseprite/GUI/HP bar text.png"
+dest_files=[ "res://.import/HP bar text.png-f041d50ac7059b69cfc59e9c78134e31.stex" ]
 
 [params]
 
@@ -31,5 +31,5 @@ process/invert_color=false
 process/normal_map_invert_y=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0

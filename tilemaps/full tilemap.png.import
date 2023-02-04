@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/Bricks.png-13381fff312a0d1bbd0cfa469fe50657.stex"
+path="res://.import/full tilemap.png-d8af425e039e44bfc7eb4a1a4c6a97ec.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://tilemaps/Bricks.png"
-dest_files=[ "res://.import/Bricks.png-13381fff312a0d1bbd0cfa469fe50657.stex" ]
+source_file="res://tilemaps/full tilemap.png"
+dest_files=[ "res://.import/full tilemap.png-d8af425e039e44bfc7eb4a1a4c6a97ec.stex" ]
 
 [params]
 
@@ -31,5 +31,5 @@ process/invert_color=false
 process/normal_map_invert_y=false
 stream=false
 size_limit=0
-detect_3d=true
+detect_3d=false
 svg/scale=1.0

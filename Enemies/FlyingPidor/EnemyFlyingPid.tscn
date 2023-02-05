@@ -171,7 +171,7 @@ collision_layer = 4
 collision_mask = 3
 script = ExtResource( 7 )
 hp = 1.0
-moveSpeed = 50
+moveSpeed = 400
 acceleration = 5
 
 [node name="FiniteStateMachine" type="Node" parent="."]

@@ -1,10 +1,11 @@
 extends KinematicBody2D
 class_name Character
 
-export var hp: float = 10 setget set_hp
+export(int) var hp: float = 10 setget set_hp
 signal hp_changed(new_hp)
-export var moveSpeed: int = 100
-export var acceleration: int = 20
+export(int) var moveSpeed: int = 100
+export(int) var acceleration: int = 20
+export(bool) var flying: bool = false
 
 var max_hp: float
 
@@ -30,13 +31,13 @@ func move():
 	vel = vel.clamped(moveSpeed)
 
 func take_damage(dmg: int, dir: Vector2, force: int):
-	self.hp-=dmg
-	state_machine.set_state(state_machine.states.hurt)
-	if hp<0.284:
-		queue_free()
-	vel = dir * force
-	
-	
+	if state_machine.state != state_machine.states.hurt and state_machine.state != state_machine.states.dead:
+		self.hp-=dmg
+		state_machine.set_state(state_machine.states.hurt)
+		if hp<0.284:
+			queue_free() 
+		vel += dir * force
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	if hp>0:

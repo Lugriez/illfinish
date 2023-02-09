@@ -4,11 +4,11 @@
 [ext_resource path="res://Enemies/goblin/goblin_knife.png" type="Texture" id=2]
 
 [sub_resource type="CapsuleShape2D" id=1]
-radius = 1.41421
-height = 5.65685
+radius = 14.1421
+height = 0.0
 
 [node name="ThrowableKnife" type="Area2D"]
-collision_layer = 0
+collision_layer = 8
 collision_mask = 4
 script = ExtResource( 1 )
 

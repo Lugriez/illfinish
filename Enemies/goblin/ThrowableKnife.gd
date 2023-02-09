@@ -1,4 +1,5 @@
 extends Hitbox
+class_name Projectile
 
 var enemy_exited: bool = false
 
@@ -20,10 +21,13 @@ func _on_ThrowableKnife_body_exited(body: KinematicBody2D)-> void:
 		enemy_exited = true
 		set_collision_mask_bit(0, true)
 		set_collision_mask_bit(1, true)
-	pass # Replace with function body.
 
 func _collide(body: KinematicBody2D)->void:
 	if enemy_exited:
 		if body != null:
 			body.take_damage(damage, knockback_direction, knockback_force)
 		queue_free()
+
+
+
+

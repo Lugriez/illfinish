@@ -1,0 +1,150 @@
+[gd_scene load_steps=15 format=2]
+
+[ext_resource path="res://Player/HitboxSplash.gd" type="Script" id=1]
+[ext_resource path="res://Aseprite/weapon_sprites/Stick.png" type="Texture" id=2]
+[ext_resource path="res://Aseprite/weapon_sprites/Vjuh-sheet.png" type="Texture" id=3]
+[ext_resource path="res://Player/Weapon.gd" type="Script" id=4]
+
+[sub_resource type="RectangleShape2D" id=20]
+extents = Vector2( 0.946196, 24.475 )
+
+[sub_resource type="Shader" id=21]
+code = "shader_type canvas_item;
+
+uniform bool active = false;
+
+void fragment() {
+	vec4 previous_color = texture(TEXTURE, UV);
+	vec4 white_color = vec4(1.0, 1.0, 1.0, previous_color.a);
+	vec4 new_color = previous_color;
+	if (active == true)
+	{
+		new_color = white_color
+	}
+	COLOR = new_color;
+}"
+
+[sub_resource type="ShaderMaterial" id=22]
+shader = SubResource( 21 )
+shader_param/active = false
+
+[sub_resource type="ParticlesMaterial" id=23]
+lifetime_randomness = 0.5
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 11.0
+initial_velocity_random = 0.3
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+
+[sub_resource type="Animation" id=28]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("WeaponMelee/Node2D:rotation_degrees")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=24]
+resource_name = "attack"
+tracks/0/type = "value"
+tracks/0/path = NodePath("WeaponMelee/Node2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.1, 1 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 5, 2 ), Vector2( -5, 2 ), Vector2( 5, 2 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("WeaponMelee/Node2D:rotation_degrees")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ 0.0 ]
+}
+
+[sub_resource type="Animation" id=25]
+resource_name = "cancel_attack"
+
+[sub_resource type="Animation" id=26]
+resource_name = "charge_attack"
+
+[sub_resource type="Animation" id=27]
+resource_name = "strong_attack"
+
+[sub_resource type="RectangleShape2D" id=29]
+extents = Vector2( 9, 9 )
+
+[node name="Weapon" type="Node2D"]
+script = ExtResource( 4 )
+
+[node name="WeaponMelee" type="Node2D" parent="."]
+
+[node name="SplashSprite" type="Sprite" parent="WeaponMelee"]
+visible = false
+position = Vector2( 1.25, 12 )
+scale = Vector2( 1.78125, 1 )
+texture = ExtResource( 3 )
+flip_v = true
+hframes = 3
+
+[node name="HitboxSplash" type="Area2D" parent="WeaponMelee/SplashSprite"]
+position = Vector2( -0.140351, 1 )
+scale = Vector2( 8.30657, 0.449438 )
+collision_layer = 0
+collision_mask = 12
+script = ExtResource( 1 )
+
+[node name="CollisionShape2DSplash" type="CollisionShape2D" parent="WeaponMelee/SplashSprite/HitboxSplash"]
+position = Vector2( 0, 8.90002 )
+shape = SubResource( 20 )
+disabled = true
+
+[node name="Node2D" type="Node2D" parent="WeaponMelee"]
+position = Vector2( 5, 2 )
+
+[node name="Sprite" type="Sprite" parent="WeaponMelee/Node2D"]
+material = SubResource( 22 )
+position = Vector2( 0, 5 )
+texture = ExtResource( 2 )
+
+[node name="ChargeParticles" type="Particles2D" parent="WeaponMelee/Node2D/Sprite"]
+position = Vector2( 0, 7 )
+emitting = false
+amount = 10
+process_material = SubResource( 23 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 28 )
+anims/attack = SubResource( 24 )
+anims/cancel_attack = SubResource( 25 )
+anims/charge_attack = SubResource( 26 )
+anims/strong_attack = SubResource( 27 )
+
+[node name="PlayerDetector" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerDetector"]
+position = Vector2( 5, 8 )
+shape = SubResource( 29 )
+
+[connection signal="area_entered" from="WeaponMelee/SplashSprite/HitboxSplash" to="WeaponMelee/SplashSprite/HitboxSplash" method="_on_HitboxSplash_area_entered"]
+[connection signal="body_entered" from="PlayerDetector" to="." method="_on_PlayerDetector_body_entered"]

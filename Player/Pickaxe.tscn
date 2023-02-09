@@ -355,3 +355,6 @@ anims/attack = SubResource( 1 )
 anims/cancel_attack = SubResource( 2 )
 anims/charge_attack = SubResource( 3 )
 anims/strong_attack = SubResource( 4 )
+
+[node name="PlayerDetector" parent="." index="2"]
+position = Vector2( 0, 4 )

@@ -28,11 +28,20 @@ func pick_up_weapon(weapon: Node2D)->void:
 	weapon.get_parent().call_deferred("remove_child", weapon)
 	weapons.call_deferred("add_child", weapon)
 	weapon.set_deferred("owner", weapons)
-	current_weapon.hide()
+	#current_weapon.hide()
 	current_weapon.cancel_attack()
+	drop_weapon(current_weapon)
 	current_weapon = weapon
-	current_weapon.show()
+	#current_weapon.show()
 
+func drop_weapon(weapon: Node2D):
+	weapons.call_deferred("remove_child", weapon)
+	get_parent().call_deferred("add_child", weapon)
+	weapon.set_owner(get_parent())
+	yield(weapon.tween, "tree_entered")
+	var throw_dir: Vector2 = (get_global_mouse_position() - position).normalized()
+	weapon.interpolate_pos(position, position + throw_dir*50)
+	
 func get_input() -> void:
 	rotationSystem()
 	move_direction = Vector2.ZERO

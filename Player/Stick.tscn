@@ -1,28 +1,7 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Player/Weapon.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Player/Stick.gd" type="Script" id=2]
-
-[sub_resource type="Shader" id=21]
-code = "shader_type canvas_item;
-
-uniform bool active = false;
-
-void fragment() {
-	vec4 previous_color = texture(TEXTURE, UV);
-	vec4 white_color = vec4(1.0, 1.0, 1.0, previous_color.a);
-	vec4 new_color = previous_color;
-	if (active == true)
-	{
-		new_color = white_color
-	}
-	COLOR = new_color;
-}"
-
-[sub_resource type="ShaderMaterial" id=22]
-resource_local_to_scene = true
-shader = SubResource( 21 )
-shader_param/active = false
 
 [sub_resource type="Animation" id=1]
 length = 0.001
@@ -112,7 +91,6 @@ tracks/6/keys = {
 }
 
 [sub_resource type="Animation" id=2]
-resource_local_to_scene = true
 resource_name = "attack"
 tracks/0/type = "value"
 tracks/0/path = NodePath("WeaponMelee/Node2D:position")
@@ -188,7 +166,6 @@ tracks/5/keys = {
 }
 
 [sub_resource type="Animation" id=3]
-resource_local_to_scene = true
 resource_name = "cancel_attack"
 tracks/0/type = "value"
 tracks/0/path = NodePath("WeaponMelee/SplashSprite:visible")
@@ -252,7 +229,6 @@ tracks/4/keys = {
 }
 
 [sub_resource type="Animation" id=4]
-resource_local_to_scene = true
 resource_name = "charge_attack"
 tracks/0/type = "value"
 tracks/0/path = NodePath("WeaponMelee/Node2D/Sprite:material:shader_param/active")
@@ -280,7 +256,6 @@ tracks/1/keys = {
 }
 
 [sub_resource type="Animation" id=5]
-resource_local_to_scene = true
 resource_name = "strong_attack"
 tracks/0/type = "value"
 tracks/0/path = NodePath("WeaponMelee/Node2D:position")
@@ -341,9 +316,6 @@ tracks/3/keys = {
 
 [node name="Stick" instance=ExtResource( 1 )]
 script = ExtResource( 2 )
-
-[node name="Sprite" parent="WeaponMelee/Node2D" index="0"]
-material = SubResource( 22 )
 
 [node name="AnimationPlayer" parent="." index="1"]
 anims/RESET = SubResource( 1 )

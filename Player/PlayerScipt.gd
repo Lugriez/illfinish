@@ -2,7 +2,7 @@ extends Character
 
 const TRIPLE_ATTACK: PackedScene = preload("res://Player/TripleWave.tscn")
 
-onready var camera = $PlayerCamera
+onready var ray = $CollisionShape2D/RayCast2D
 onready var animatedSprite = $AnimatedSprite
 
 
@@ -10,18 +10,10 @@ var current_weapon: Node2D
 onready var weapons: Node2D = $Weapons
 
 func _ready():
-	restoreSavedData()
-	
-func restoreSavedData()->void:
-	self.hp = SavedData.hp
 	current_weapon = weapons.get_child(0)
-	for weapon1 in SavedData.weapons:
-		weapon1 = weapon1.duplicate()
-		weapons.add_child(weapon1)
-		current_weapon.queue_free()
-		current_weapon = weapon1
-		current_weapon.position = Vector2.ZERO
-	
+
+
+
 
 
 var smoothed_mouse_pos: Vector2
@@ -33,11 +25,9 @@ func rotationSystem():
 	
 
 func pick_up_weapon(weapon: Node2D)->void:
-	SavedData.weapons.append(weapon.duplicate())
 	weapon.get_parent().call_deferred("remove_child", weapon)
 	weapons.call_deferred("add_child", weapon)
 	weapon.set_deferred("owner", weapons)
-	weapon.on_floor = false
 	#current_weapon.hide()
 	current_weapon.cancel_attack()
 	drop_weapon(current_weapon)
@@ -49,7 +39,6 @@ func drop_weapon(weapon: Node2D):
 	get_parent().call_deferred("add_child", weapon)
 	weapon.set_owner(get_parent())
 	yield(weapon.tween, "tree_entered")
-	weapon.can_pickup = false
 	var throw_dir: Vector2 = (get_global_mouse_position() - position).normalized()
 	weapon.interpolate_pos(position, position + throw_dir*50)
 	
@@ -65,7 +54,7 @@ func get_input() -> void:
 	if Input.is_action_pressed("move_right"):
 		move_direction.x += 1
 	current_weapon.get_input()
-	
+
 
 
 	

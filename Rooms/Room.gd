@@ -1,5 +1,4 @@
 extends Node2D
-class_name Roompj
 
 const SPAWN_EXPLOSION_SCENE: PackedScene = preload("res://Enemies/SpawnExplosion.tscn")
 
@@ -58,5 +57,4 @@ func _on_PlayerDetector_body_entered(_body: KinematicBody2D)->void:
 		_close_entrance()
 		_spawn_enemies()
 	else:
-		_close_entrance()
 		_open_doors()

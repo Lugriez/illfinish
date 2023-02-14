@@ -7,8 +7,6 @@ var max_hp: int = 4
 onready var player: KinematicBody2D = get_parent().get_node("Player")
 onready var health_bar: TextureProgress = get_node("Health_bar")
 onready var health_bar_tween: Tween = get_node("Health_bar/Tween")
-
-onready var score: Label = $ScoreLabel/Score
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
@@ -24,16 +22,12 @@ func _update_health_bar(new_value: float) -> void:
 	health_bar.value, new_value, 0.5,Tween.TRANS_QUINT, Tween.EASE_OUT)
 	__ = health_bar_tween.start()
 
-func change_score(value: int):
-	score.text = String(int(score.text)+value)
-	SavedData.score = score.text
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
 
 
 func _on_Player_hp_changed(new_hp: float):
-	var new_health = ((100-MIN_HEALTH) * new_hp/max_hp) + MIN_HEALTH
-	print(new_health)
+	var new_health = (100-MIN_HEALTH) * new_hp/max_hp + MIN_HEALTH
 	_update_health_bar(new_health)
 	

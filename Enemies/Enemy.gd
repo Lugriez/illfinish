@@ -10,8 +10,6 @@ onready var navi: Navigation2D = get_tree().current_scene.get_node("Rooms")
 onready var player: KinematicBody2D = get_tree().current_scene.get_node("Player")
 onready var path_timer: Timer = get_node("PathTimer")
 
-
-
 func chase():
 	if path:
 		var vector_to_next_point: Vector2 = path[0] - global_position

@@ -10,6 +10,9 @@ onready var hitbox:Area2D = $WeaponMelee/SplashSprite/HitboxSplash
 onready var player_detector: Area2D = $PlayerDetector
 onready var tween: Tween = $Tween
 
+onready var can_pickup: bool = true
+onready var pickable_timer: Timer = $Pickable
+
 func _ready():
 	hitbox.knockback_force = 150
 	if not on_floor:
@@ -42,20 +45,32 @@ func interpolate_pos(init_pos, final_pos):
 	__ = tween.start()
 	assert(__)
 	player_detector.set_collision_mask_bit(0, true)
+	pickable_timer.start()
 
 
 
 func _on_PlayerDetector_body_entered(_body: KinematicBody2D):
-	if _body != null:
+	
+	if _body != null and can_pickup:
 		player_detector.set_collision_mask_bit(0, false)
 		player_detector.set_collision_mask_bit(1, false)
+		can_pickup = false
 		_body.pick_up_weapon(self)
+		weapon_anim_player.play("RESET")
 		position = Vector2.ZERO
 	else:
-		print (_body)
 		var __ = tween.stop_all()
 		assert(__)
 		player_detector.set_collision_mask_bit(1, true)
+		on_floor = true
+		pickable_timer.start()
+		
 
 func _on_Tween_tween_completed(object, key):
 	player_detector.set_collision_mask_bit(1, true)
+	on_floor = true
+	pickable_timer.start()
+
+func _on_Pickable_timeout():
+	can_pickup = true
+

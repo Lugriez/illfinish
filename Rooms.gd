@@ -1,7 +1,9 @@
 extends Navigation2D
 
+
 const SPAWN_ROOMS:Array = [preload("res://Rooms/SpawnRooms/RoomSpawn1.tscn")]
-const INTERMEDIATE_ROOMS:Array = [preload("res://Rooms/RegularRooms/Room0.tscn"),preload("res://Rooms/RegularRooms/Room1.tscn"),preload("res://Rooms/RegularRooms/Room2.tscn"),preload("res://Rooms/SpecialRooms/Corridor0.tscn")]
+const INTERMEDIATE_ROOMS:Array = [preload("res://Rooms/RegularRooms/Room0.tscn"),preload("res://Rooms/RegularRooms/Room2.tscn"),preload("res://Rooms/SpecialRooms/Corridor0.tscn")]
+const SPEC_ROOMS:Array = [preload("res://Rooms/SpecialRooms/RoomSpec1.tscn"),]
 const END_ROOMS: Array = [preload("res://Rooms/ExitRooms/RoomExit1.tscn")]
 
 const TILE_SIZE: int = 16
@@ -9,7 +11,7 @@ const FLOOR_TILE_INDEX: int = 5
 const RIGHT_WALL_TILE_INDEX: int = 8
 const LEFT_WALL_TILE_INDEX: int = 9
 
-export(int) var num_levels: int = 3
+export(int) var num_levels: int = 2
 
 onready var player: KinematicBody2D = get_parent().get_node("Player")
 
@@ -32,7 +34,8 @@ func _ready():
 
 func _spawn_rooms()->void:
 	var previous_room: Node2D
-	
+	var spec_rooms_spawned = false
+	print(num_levels)
 	for i in num_levels:
 		var room: Node2D
 		if i == 0:
@@ -42,7 +45,11 @@ func _spawn_rooms()->void:
 			if i == num_levels - 1:
 				room = END_ROOMS[randi() % END_ROOMS.size()].instance()
 			else:
-				room = INTERMEDIATE_ROOMS[randi() % INTERMEDIATE_ROOMS.size()].instance()
+				if (randi()%3 == 0 and not spec_rooms_spawned):
+					room = SPEC_ROOMS[randi() % SPEC_ROOMS.size()].instance()
+				else:
+					room = INTERMEDIATE_ROOMS[randi() % INTERMEDIATE_ROOMS.size()].instance()
+				
 		
 			var previous_room_tilemap: TileMap = previous_room.get_node("TileMap")
 			var previous_room_door: StaticBody2D = previous_room.get_node("Doors/Door")

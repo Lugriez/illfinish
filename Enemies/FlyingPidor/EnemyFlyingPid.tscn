@@ -81,7 +81,7 @@ tracks/3/keys = {
 
 [sub_resource type="Animation" id=15]
 resource_name = "hurt"
-length = 0.6
+length = 0.2
 tracks/0/type = "value"
 tracks/0/path = NodePath("AnimatedSprite:visible")
 tracks/0/interp = 1
@@ -180,8 +180,7 @@ script = ExtResource( 9 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
-animation = "move"
-frame = 2
+animation = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource( 2 )
@@ -193,6 +192,7 @@ script = ExtResource( 8 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource( 19 )
+disabled = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 reset_on_save = false

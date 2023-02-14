@@ -24,7 +24,7 @@ animations = [ {
 } ]
 
 [sub_resource type="CapsuleShape2D" id=2]
-radius = 6.0
+radius = 3.0
 height = 0.0
 
 [sub_resource type="Animation" id=5]
@@ -150,18 +150,14 @@ script = ExtResource( 3 )
 script = ExtResource( 2 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+position = Vector2( 0, 2 )
+scale = Vector2( 0.75, 0.6875 )
 frames = SubResource( 1 )
 animation = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 2 )
 shape = SubResource( 2 )
-
-[node name="RayCast2D" type="RayCast2D" parent="CollisionShape2D"]
-scale = Vector2( 0.993082, 0.973758 )
-enabled = true
-exclude_parent = false
-cast_to = Vector2( -15.1045, 0 )
-collide_with_areas = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 reset_on_save = false
@@ -173,3 +169,4 @@ anims/move = SubResource( 4 )
 [node name="Weapons" type="Node2D" parent="."]
 
 [node name="Stick" parent="Weapons" instance=ExtResource( 1 )]
+on_floor = false
